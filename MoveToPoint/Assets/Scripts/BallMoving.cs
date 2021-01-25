@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class BallMoving : MonoBehaviour
 {
@@ -33,7 +33,8 @@ public class BallMoving : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _destinations.Add(_cam.ScreenToWorldPoint(Input.mousePosition));
+            if(!EventSystem.current.IsPointerOverGameObject())
+                _destinations.Add(_cam.ScreenToWorldPoint(Input.mousePosition));
         }
     }
 
@@ -63,8 +64,13 @@ public class BallMoving : MonoBehaviour
         {
             _renderer.SetPosition(i, _destinations[_destinations.Count - i - 1]);
         }
-        Debug.Log(_destinations);
         _renderer.SetPosition(_destinations.Count, _currentDestination);   
         _renderer.SetPosition(_destinations.Count + 1, transform.position);
     }
+
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    Debug.Log("dd");
+    //    _destinations.Add(_cam.ScreenToWorldPoint(Input.mousePosition));
+    //}
 }
